@@ -1,0 +1,19 @@
+[project]
+name = "raconteur"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Cormac Shannon", email = "<>" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.11.1",
+]
+
+[project.scripts]
+raconteur = "raconteur:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
