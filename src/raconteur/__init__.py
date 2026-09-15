@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 def main() -> None:
     CHOSEN_COUNTRY = input("country: ")
+    CHOSEN_YEAR = int(input("year: ") or 0)
 
     with open("data.json", "r", encoding="utf-8") as file:
         eva_data = json.load(file)
@@ -26,6 +27,8 @@ def main() -> None:
 
     if CHOSEN_COUNTRY:
         records = list(filter(lambda record: record[2] == CHOSEN_COUNTRY, records))
+    if CHOSEN_YEAR:
+        records = list(filter(lambda record: record[0].year == CHOSEN_YEAR, records))
     records.sort(key=lambda record: record[0])
 
     dates = []
@@ -37,7 +40,12 @@ def main() -> None:
         dates.append(date)
         cumulative_hours.append(total_hours)
 
-    print(f"Total hours spend for {CHOSEN_COUNTRY}: {total_hours}")
+    if CHOSEN_COUNTRY:
+        print(f"For {CHOSEN_COUNTRY}")
+    if CHOSEN_YEAR:
+        print(f"In {CHOSEN_YEAR}")
+    print(f"Total hours spent on trips: {total_hours}")
+    print(f"Total eva trips: {len(records)}")
 
     plt.plot(dates, cumulative_hours)
     plt.xlabel("Year")
