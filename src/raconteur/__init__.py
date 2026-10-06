@@ -31,11 +31,28 @@ def main() -> None:
         records = list(filter(lambda record: record[0].year == CHOSEN_YEAR, records))
     records.sort(key=lambda record: record[0])
 
+    for i, rec in enumerate(records):
+        def classify(hours):
+            if hours < 4: return "short"
+            if hours < 7: return "standard"
+            else: return "long"
+        records[i] = (*rec, classify(rec[1]))
+
+    short = len(list(filter(lambda r: r[3] == "short", records)))
+    standard = len(list(filter(lambda r: r[3] == "standard", records)))
+    long = len(list(filter(lambda r: r[3] == "long", records)))
+    total = sum((short, standard, long))
+    
+    print(f"{total} trips were performed.")
+    print(f"{short} short trips, {short/total*100:.2f}% of trips.")
+    print(f"{standard} standard trips, {standard/total*100:.2f}% of trips.")
+    print(f"{long} long trips, {long/total*100:.2f}% of trips.")
+
     dates = []
     cumulative_hours = []
     total_hours = 0
 
-    for date, duration_hours, _ in records:
+    for date, duration_hours, *_ in records:
         total_hours += duration_hours
         dates.append(date)
         cumulative_hours.append(total_hours)
