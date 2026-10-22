@@ -12,3 +12,4 @@ wheels/
 # Images
 *.png
 !baseline/*.png
+!docs/*.png
