@@ -22,3 +22,14 @@ def plot_cumulative(dates, hours):
     plt.tight_layout()
     plt.savefig("cumulative_duration.png")
     plt.show()
+
+
+def print_comparison(result):
+    print(f"EVA comparison, {result['start_year']} to {result['end_year']} (inclusive)")
+    for s in result["countries"]:
+        average = f"{s['average']:.2f} hours" if s["average"] is not None else "unavailable"
+        print(f"{s['country']}: {s['count']} EVAs, {s['total']:.2f} total hours, average {average}")
+    if result["leader"]:
+        print(f"{result['leader']} had the greater total EVA duration.")
+    else:
+        print("Tie: both countries had the same total EVA duration.")

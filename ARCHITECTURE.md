@@ -120,3 +120,33 @@ Each module changes for one reason only:
 - ➕ Calculations can be tested and reused. The record shape is named.
 - ➖ Four files instead of one.
 - ➖ `python src/raconteur/__init__.py` stops working because of the package imports. The README must switch to `python -m raconteur`.
+
+## 4. Adding the comparison
+
+### 4.1 Modules changed
+| Module | Change |
+|---|---|
+| `analysis.py` | added `compare_countries()` |
+| `display.py` | added `print_comparison()` |
+| `__init__.py` | added `compare()` and the `compare` command |
+| `data.py` | **unchanged** |
+
+That's 3 of 4 modules, and every change is an addition. No existing function was edited.
+
+### 4.2 Code reused
+- `filter_records(records, country, start_year, end_year)`, the same function the year filter uses
+- `total_hours(records)`
+- `load_records(path)`
+
+### 4.3 Edge cases
+| Case | Handled in | Result |
+|---|---|---|
+| Inclusive years | `filter_records` uses `>=` / `<=` | 2000–2000 gives 9 USA + 1 Russia, matching the 10 in the 2000 baseline |
+| Country with no EVAs | `compare_countries` | count 0, total 0.00, average "unavailable" (`None`) |
+| Equal totals | `compare_countries` | `leader` is `None`, printed as "Tie" |
+| Start year after end year | `compare_countries` raises `ValueError` | message, no crash |
+| Unknown country | `compare_countries` raises `ValueError` | message listing the known countries |
+| Non-numeric year | `compare()` | message, no crash |
+
+### 4.4 Old features
+The six baseline runs still give identical output and plots.

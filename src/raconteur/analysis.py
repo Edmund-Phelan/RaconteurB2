@@ -33,3 +33,27 @@ def total_hours(records):
 def cumulative_hours(records):
     """(dates, running total of hours) in record order."""
     return [r.date for r in records], list(accumulate(r.hours for r in records))
+
+
+def compare_countries(records, country_a, country_b, start_year, end_year):
+    """Count, total and average hours per country over an inclusive year range, plus the leader (None for a tie).
+
+    Raises ValueError for a reversed year range or a country not in the records.
+    """
+    if start_year > end_year:
+        raise ValueError(f"Start year {start_year} is after end year {end_year}.")
+    known = {r.country for r in records}
+    for country in (country_a, country_b):
+        if country not in known:
+            raise ValueError(f"Unknown country '{country}'. Known countries: {', '.join(sorted(known))}.")
+
+    stats = []
+    for country in (country_a, country_b):
+        selected = filter_records(records, country, start_year, end_year)
+        total = total_hours(selected)
+        average = total / len(selected) if selected else None
+        stats.append({"country": country, "count": len(selected), "total": total, "average": average})
+
+    a, b = stats
+    leader = a["country"] if a["total"] > b["total"] else b["country"] if b["total"] > a["total"] else None
+    return {"start_year": start_year, "end_year": end_year, "countries": stats, "leader": leader}
