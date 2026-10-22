@@ -150,3 +150,33 @@ That's 3 of 4 modules, and every change is an addition. No existing function was
 
 ### 4.4 Old features
 The six baseline runs still give identical output and plots.
+
+## 5. Testing
+
+### 5.1 Tests (`tests/test_analysis.py`)
+Hand-made `Record` lists, calling `analysis` functions directly with no file reading or printing.
+
+| Test | Checks |
+|---|---|
+| `test_known_answers` | A: 2 EVAs, 3.0h, avg 1.5; B: 1 EVA, 2.0h; leader A. Records one year outside the range on each side are excluded. |
+| `test_no_evas_is_unavailable_and_tie` | No EVAs in range: count 0, total 0, average `None`, leader `None` (tie) |
+| `test_invalid_input_raises` | Start year after end year, and an unknown country, both raise `ValueError` |
+| `test_boundaries` | `classify`: 3.99 short, 4 standard, 6.99 standard, 7 long |
+
+### 5.2 Output
+```
+$ uv run python -m unittest discover -s tests -v
+test_boundaries (test_analysis.TestClassify.test_boundaries) ... ok
+test_invalid_input_raises (test_analysis.TestCompareCountries.test_invalid_input_raises) ... ok
+test_known_answers (test_analysis.TestCompareCountries.test_known_answers) ... ok
+test_no_evas_is_unavailable_and_tie (test_analysis.TestCompareCountries.test_no_evas_is_unavailable_and_tie) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+```
+Sanity check: changing the year filter's `>=` to `>` makes `test_known_answers` fail.
+
+### 5.3 Old features
+After the restructure (step 5) and again after the comparison (step 6), the six runs in 1.8 were re-run and diffed against `baseline/`. The printed output and the plots were identical both times.
