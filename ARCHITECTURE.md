@@ -71,7 +71,7 @@ Dependencies only go down from `main()`. The three modules never import each oth
 |---|---|---|---|
 | `data.py` | Load `data.json`, skip incomplete records, parse fields | `json`, `datetime` | `Record(date, hours, country)`<br>`load_records(path) -> list[Record]` |
 | `analysis.py` | All calculations, pure functions | nothing | `filter_records(records, country=None, start_year=None, end_year=None) -> list[Record]` (sorted by date)<br>`classify(hours) -> str`<br>`count_by_class(records) -> dict[str, int]`<br>`total_hours(records) -> float`<br>`cumulative_hours(records) -> (dates, hours)`<br>`compare_countries(records, a, b, start_year, end_year) -> dict` |
-| `display.py` | Print and plot, no calculations | `matplotlib` | `print_summary(counts, total, n, country, year)`<br>`plot_cumulative(dates, hours)`<br>`print_comparison(result)` |
+| `display.py` | Print and plot, no calculations | `matplotlib` | `print_summary(counts, total_hours, country, year)`<br>`plot_cumulative(dates, hours)`<br>`print_comparison(result)` |
 | `__init__.py` | Ask for input, call the others in order | the three above | `main()` |
 
 ### 2.3 Why these boundaries (AR2)
