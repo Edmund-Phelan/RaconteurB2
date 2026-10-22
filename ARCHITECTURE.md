@@ -179,4 +179,39 @@ OK
 Sanity check: changing the year filter's `>=` to `>` makes `test_known_answers` fail.
 
 ### 5.3 Old features
-After the restructure (step 5) and again after the comparison (step 6), the six runs in 1.8 were re-run and diffed against `baseline/`. The printed output and the plots were identical both times.
+After the restructure and again after adding the comparison, the six runs in 1.8 were re-run and diffed against `baseline/`. The printed output and the plots were identical both times.
+
+## 6. Before vs after
+
+| Criterion | Before (`inherited-baseline`) | After |
+|---|---|---|
+| Modules touched for the comparison | Would mean editing the one `main()`, mixed in with input, printing and plotting | 3 of 4 (`analysis`, `display`, `__init__`), additions only. `data.py` untouched. |
+| Dependencies | `json`, `datetime` and `matplotlib` all in one function | `data`: `json`, `datetime`. `analysis`: stdlib only. `display`: `matplotlib`. They never import each other. |
+| Calculations testable alone | No. Needs stdin, `data.json`, and returns nothing. | Yes. All `analysis` functions are pure, and 4 tests run with no files or printing. |
+| Clarity | 75-line `main()`, fields read by position (`r[3]`) | Largest function is `compare_countries` (22 lines). Fields are named (`r.hours`). |
+| Duplication | EVA count computed twice. Total hours built inside the plot loop. | Count computed once. Comparison reuses `filter_records` and `total_hours`. |
+| Added complexity | 1 file, 75 lines | 4 files, 161 lines (including the new feature). Comparison results are plain dicts with no type. Direct script run (`python src/raconteur/__init__.py`) no longer works. |
+
+## 7. ADR-002: Run the comparison as a `compare` command
+
+**Context:** The comparison needs its own entry point. The existing summary's prompts (`country:`, `year:`) are what the baseline runs feed in, so they must not change (AR5).
+
+**Alternatives**
+| Option | Rejected / chosen because |
+|---|---|
+| A. Menu prompt before everything ("1 summary / 2 compare") | Rejected. It adds a prompt to the existing feature and breaks every baseline run. |
+| B. Second script in `pyproject.toml` (`raconteur-compare`) | Rejected. A second entry point to install and document for one feature. |
+| C. `argparse` with arguments (`compare USA Russia 1990 2000`) | Rejected. Inconsistent with the existing prompt style, and more code than needed. |
+| D. `uv run raconteur compare`, checked with `sys.argv`, then prompts | **Chosen** |
+
+**Decision:** Option D.
+
+**Rationale**
+- The existing feature's input and output are unchanged, so the baseline still matches.
+- Same interaction style as the existing feature (prompts).
+- Two lines in `main()`. No new dependency.
+
+**Consequences**
+- ➕ Old behaviour kept exactly. The comparison is easy to find and run.
+- ➖ There's no `--help`. Unrecognised arguments are ignored and the summary runs.
+- ➖ The comparison can't be scripted with arguments. Input has to be piped in, as the baseline runs do.
