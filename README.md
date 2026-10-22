@@ -1,17 +1,47 @@
-# Raconteur, Group 2
+# Raconteur, Group 2
 
-Starting on B2
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the design and decisions.
 
-## Installation and running
+## Install
 
-This project uses UV as its build system and packaging tool.
+Requires Python 3.11+. Run every command from the repository root, because the program reads `data.json` from the current folder.
 
-The project can be invoked with `uv run raconteur`.
+**With [uv](https://docs.astral.sh/uv/)** 
 
-If you are not using UV, ensure you build the virtual environment (.venv) correct.
+```sh
+uv sync
+```
 
-`python -m venv .venv`
+**Without uv**
 
-`source .venv/bin/activate` (bash, zsh), `source .venv/bin/activate.fish` (fish)
+```sh
+python -m venv .venv
+source .venv/bin/activate        # fish: source .venv/bin/activate.fish
+pip install -e .
+```
 
-`python src/raconteur/__init__.py`
+## Run
+
+If you installed without uv, drop the `uv run` prefix from the commands below.
+
+**Summary and plot**
+
+```sh
+uv run raconteur
+```
+
+It asks for a country and a year. Leave either blank to include everything. The plot is saved to `cumulative_duration.png`.
+
+**Country comparison**
+
+```sh
+uv run raconteur compare
+```
+
+It asks for Country A, Country B, a start year and an end year (both years included). It prints each country's EVA count, total hours and average hours, then names the country with the greater total, or reports a tie. The countries in the data are `USA` and `Russia`.
+
+## Tests
+
+```sh
+uv run python -m unittest discover -s tests -v
+```
