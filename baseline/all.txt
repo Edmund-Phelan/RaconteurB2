@@ -1,0 +1,6 @@
+country: year: 330 trips were performed.
+71 short trips, 21.52% of trips.
+187 standard trips, 56.67% of trips.
+72 long trips, 21.82% of trips.
+Total hours spent on trips: 1785.0333333333347
+Total eva trips: 330

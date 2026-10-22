@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Volumes/Eddies Files/RaconteurB2/.venv/bin/raconteur", line 12, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Volumes/Eddies Files/RaconteurB2/src/raconteur/__init__.py", line 47, in main
+    print(f"{short} short trips, {short/total*100:.2f}% of trips.")
+                                  ~~~~~^~~~~~
+ZeroDivisionError: division by zero

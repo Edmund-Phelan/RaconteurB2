@@ -1,0 +1,8 @@
+country: year: 1 trips were performed.
+1 short trips, 100.00% of trips.
+0 standard trips, 0.00% of trips.
+0 long trips, 0.00% of trips.
+For USA
+In 1965
+Total hours spent on trips: 0.6
+Total eva trips: 1

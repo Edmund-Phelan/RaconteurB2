@@ -1,0 +1,7 @@
+country: year: 113 trips were performed.
+35 short trips, 30.97% of trips.
+76 standard trips, 67.26% of trips.
+2 long trips, 1.77% of trips.
+For Russia
+Total hours spent on trips: 527.9000000000001
+Total eva trips: 113

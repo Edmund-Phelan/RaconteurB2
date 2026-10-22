@@ -1,0 +1,7 @@
+country: year: 10 trips were performed.
+0 short trips, 0.00% of trips.
+8 standard trips, 80.00% of trips.
+2 long trips, 20.00% of trips.
+In 2000
+Total hours spent on trips: 65.11666666666666
+Total eva trips: 10
